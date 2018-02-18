@@ -5,10 +5,10 @@
 using namespace std;
 
 int check(vector<pii> v){
-    double s = v[0].x*v[1].y + v[1].x*v[2].y + v[2].x*v[0].y - v[0].y*v[1].x - v[1].y*v[2].x - v[2].y *v[0].x;
-    if(fabs(s)<1e-6)return -666;
-    if(s>0)return 1;
-    return 1;
+
+    if(v[1].y> max(v[0].y,v[2].y) && (v[0].x < v[1].x)  && (v[1].x< v[2].x))return 1;
+    if(v[1].y< min(v[0].y,v[2].y) && (v[0].x < v[1].x)  && (v[1].x< v[2].x))return 0;
+    return -666;
 }
 int main(){
     int tc;cin>>tc;
@@ -19,10 +19,11 @@ int main(){
        int mask = 1;
        bool ok = (check(tr)==mask);
        for(int i=3;i<N;i++){
+        tr[0]=tr[1];
+        tr[1]=tr[2];
+        cin>>tr[2].x>>tr[2].y;
         mask^=1;
-        cin>>tr[i].x>>tr[i].y;
         ok &= (check(tr)==mask);
-        cerr<<ok<<endl;
        }
        cout<<(ok ? "":"Not ")<<"Mountains and Valleys\n";
     }
